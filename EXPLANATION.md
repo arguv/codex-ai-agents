@@ -160,3 +160,19 @@ as file input: stderr diagnostics, exit status `2`, and no count on stdout.
 The regression checks the observable error behavior rather than the exact
 underlying operating-system message. Input is still buffered entirely in
 memory, and stdin encoding remains controlled by Python's environment.
+
+## Step 8 — Package Orchestration as a Skill
+
+[agent-workflow](.agents/skills/agent-workflow/SKILL.md) turns the prior manual
+handoffs into a reusable procedure. The parent supplies a concrete task and
+acceptance criteria, coordinates the four roles, integrates implementation,
+and returns test or review findings for correction.
+
+The procedure defines a bounded repair loop and requires honest reporting of
+delegation availability. It uses the existing role files instead of duplicating
+their full instructions. As with the first skill, no scripts or runtime
+dependencies are needed: the skill guides Codex's orchestration tools rather
+than implementing a separate agent runtime.
+
+Invoke it as `$agent-workflow` followed by the change you want. Creating this
+skill does not itself run another feature implementation.

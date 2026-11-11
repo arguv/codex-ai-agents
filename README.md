@@ -22,7 +22,7 @@ agents using OpenAI Codex.
 
 ## Current Progress
 
-Step 7: Standard-input support includes regression-tested read-error handling.
+Step 8: Reusable skills cover project verification and delegated implementation.
 
 Follow [WORKFLOW.md](WORKFLOW.md) for a guided collaboration exercise.
 
@@ -82,6 +82,19 @@ checks still run locally. A failing test fails the job; making it a required
 merge check is a separate repository setting.
 
 ## Documentation
+
+Use [agent-workflow](.agents/skills/agent-workflow/SKILL.md) to coordinate the
+four roles for a specific change. Example request:
+
+```text
+Use $agent-workflow to add --version to the CLI. It should print
+word-count 1.0 and exit successfully without requiring an input source.
+Preserve existing counting behavior and add regression tests.
+```
+
+This is an example future task; `--version` has not been implemented. The skill
+passes plans and results between agents, returns findings for fixes, and reports
+which agents actually ran. It does not commit or push automatically.
 
 The repository skill [project-check](.agents/skills/project-check/SKILL.md)
 runs the test suite and checks staged and unstaged diffs. In a Codex session
