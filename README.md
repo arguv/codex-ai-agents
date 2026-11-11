@@ -22,7 +22,7 @@ agents using OpenAI Codex.
 
 ## Current Progress
 
-Step 9: Exercise the delegated implementation skill with CLI version reporting.
+Step 10: Retain the review's open-stdin and option-order checks as regression tests.
 
 Follow [WORKFLOW.md](WORKFLOW.md) for a guided collaboration exercise.
 

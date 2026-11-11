@@ -194,3 +194,16 @@ The Tester passed all 14 tests and separately verified that version reporting
 exits with stdin still open. This exercises the skill's normal handoff path;
 it does not exercise its repair-loop stopping condition or guarantee behavior
 on platforms not tested locally.
+
+## Step 10 — Preserve Exploratory Checks in CI
+
+The review identified useful manual checks that were missing from the permanent
+suite. New subprocess regressions leave the stdin pipe open while waiting for
+version reporting to exit. Closing the pipe first would hide an accidental read
+that blocks until EOF. A five-second timeout fails the test and kills and reaps
+the child process, so a regression cannot hang the test run indefinitely.
+
+Option-order tests also preserve argparse behavior: `--version --file` exits
+with the version, while `--file --version` reports the missing file argument.
+After the option terminator, `-- --version` counts the literal text as one word.
+These tests turn the earlier review evidence into repeatable CI coverage.

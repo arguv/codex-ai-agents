@@ -81,6 +81,49 @@ class CommandLineTests(unittest.TestCase):
                     stdin.read.assert_not_called()
                     read_text.assert_not_called()
 
+    def test_version_exits_with_stdin_still_open(self):
+        with tempfile.TemporaryDirectory() as directory:
+            missing = str(Path(directory) / "missing.txt")
+            for args in [
+                ("--version",),
+                ("--stdin", "--version"),
+                ("--file", missing, "--version"),
+                ("--version", "--stdin"),
+            ]:
+                with self.subTest(args=args):
+                    with subprocess.Popen(
+                        [sys.executable, "-B", str(SCRIPT), *args],
+                        stdin=subprocess.PIPE,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                    ) as process:
+                        # communicate() would close stdin, hiding an unwanted read.
+                        try:
+                            returncode = process.wait(timeout=5)
+                        except subprocess.TimeoutExpired:
+                            process.kill()
+                            process.wait()
+                            self.fail("version reporting waited for stdin EOF")
+                        self.assertEqual(returncode, 0)
+                        self.assertEqual(process.stdout.read(), "word-count 1.0\n")
+                        self.assertEqual(process.stderr.read(), "")
+
+    def test_version_preserves_argparse_option_order(self):
+        result = self.run_cli("--version", "--file")
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout, "word-count 1.0\n")
+        self.assertEqual(result.stderr, "")
+
+        result = self.run_cli("--file", "--version")
+        self.assert_cli_error(result)
+        self.assertEqual(result.returncode, 2)
+
+        result = self.run_cli("--", "--version")
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout, "1\n")
+        self.assertEqual(result.stderr, "")
+
     def test_accepts_empty_text(self):
         result = self.run_cli("")
         self.assertEqual(result.returncode, 0)
