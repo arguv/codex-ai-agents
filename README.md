@@ -42,10 +42,13 @@ to tokens. Quote text containing spaces when using the CLI:
 ```bash
 python3 word_count.py "hello agent team"  # Prints 3
 python3 word_count.py ""                  # Prints 0
+python3 word_count.py --file sample.txt   # Counts words in a UTF-8 file
 ```
 
-Omitting the text argument displays usage information and exits with a
-nonzero status. Importing the module does not run the CLI.
+Provide exactly one input: quoted text or `--file PATH`. Omitting input or
+combining the two displays usage information and exits with a nonzero status.
+Unreadable files and invalid UTF-8 produce an error without a traceback.
+Importing the module does not run the CLI.
 
 The Planner defines the contract, the Developer implements the tool,
 the Tester checks behavior, and the Reviewer checks correctness and scope.

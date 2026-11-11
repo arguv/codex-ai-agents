@@ -1,6 +1,7 @@
 """Count whitespace-separated words in text."""
 
 import argparse
+from pathlib import Path
 
 
 def count_words(text: str) -> int:
@@ -9,11 +10,19 @@ def count_words(text: str) -> int:
 
 
 def main() -> None:
-    """Parse one text argument and print its word count."""
+    """Read text or a UTF-8 file and print its word count."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("text", help="text to count; quote text containing spaces")
+    source = parser.add_mutually_exclusive_group(required=True)
+    source.add_argument("text", nargs="?", help="text to count; quote text containing spaces")
+    source.add_argument("--file", type=Path, help="UTF-8 file to count")
     args = parser.parse_args()
-    print(count_words(args.text))
+    text = args.text
+    if args.file is not None:
+        try:
+            text = args.file.read_text(encoding="utf-8")
+        except (OSError, UnicodeError) as error:
+            parser.error(f"cannot read {args.file}: {error}")
+    print(count_words(text))
 
 
 if __name__ == "__main__":

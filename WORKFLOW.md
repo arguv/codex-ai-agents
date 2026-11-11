@@ -6,8 +6,9 @@ the custom agents in [.codex/agents/](.codex/agents/).
 ## Exercise: Count Words in a File
 
 Extend [word_count.py](word_count.py) to accept a UTF-8 file while preserving
-the existing text argument behavior. This is a proposed exercise; the file
-input feature has not yet been implemented.
+the existing text argument behavior. The file-input feature is implemented;
+the prompt below can be used to reproduce the exercise from the earlier version
+or assess the current implementation against the criteria.
 
 Acceptance criteria:
 
