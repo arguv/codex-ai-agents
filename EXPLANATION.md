@@ -38,7 +38,7 @@ reference materials.
 Created the initial project documentation and
 repository instructions.
 
-One project-level Planner is configured; the other agents remain planned.
+Four project-level agents are configured: Planner, Developer, Tester, and Reviewer.
 
 ## Step 2 — Planner Agent
 
@@ -71,3 +71,22 @@ enforced read-only planning session, start the parent CLI with
 
 Example request: "Use the planner agent to inspect this project and
 propose a small implementation plan for [task]. Do not modify files."
+
+## Step 3 — Agent Collaboration
+
+The agent definitions live in [.codex/agents/](.codex/agents/). The Planner
+returns requirements and a plan; the Developer implements them; the Tester
+checks behavior; the Reviewer inspects correctness and maintainability.
+The main agent passes the relevant context between stages, handles feedback,
+and reports the final outcome.
+
+Defining roles does not automatically run a workflow. Request delegation
+explicitly and identify what each agent should return. See the
+[official subagent documentation](https://learn.chatgpt.com/docs/agent-configuration/subagents).
+
+For this learning exercise, stages run sequentially because each consumes the
+previous stage's output. If testing or review identifies a problem, return it
+to the Developer and repeat the affected checks. Agent instructions define
+responsibilities; they do not enforce separate sandbox permissions.
+
+[WORKFLOW.md](WORKFLOW.md) contains the next exercise and its acceptance criteria.

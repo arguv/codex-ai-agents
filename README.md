@@ -13,7 +13,7 @@ agents using OpenAI Codex.
 - Practice automated testing and code review.
 - Build reliable multi-agent development workflows.
 
-## Planned Agents
+## Configured Agents
 
 1. Planner Agent
 2. Developer Agent
@@ -22,8 +22,9 @@ agents using OpenAI Codex.
 
 ## Current Progress
 
-Step 2: Project-level Planner agent configured in
-[.codex/agents/planner.toml](.codex/agents/planner.toml).
+Step 3: Four project-level agents configured in [.codex/agents/](.codex/agents/).
+
+Follow [WORKFLOW.md](WORKFLOW.md) for a guided collaboration exercise.
 
 Ask Codex: "Use the planner agent to inspect this project and
 propose a small implementation plan for [task]. Do not modify files."
@@ -48,8 +49,8 @@ nonzero status. Importing the module does not run the CLI.
 
 The Planner defines the contract, the Developer implements the tool,
 the Tester checks behavior, and the Reviewer checks correctness and scope.
-Only the Planner is currently configured as a specialized agent; the
-remaining roles can be handled by the main agent.
+All four roles have specialized agent definitions. The main agent coordinates
+their handoffs and combines their results.
 
 Run verification from the repository root:
 
