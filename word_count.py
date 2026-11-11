@@ -13,6 +13,7 @@ def count_words(text: str) -> int:
 def main() -> None:
     """Read text, a UTF-8 file, or stdin and print its word count."""
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--version", action="version", version="word-count 1.0")
     source = parser.add_mutually_exclusive_group(required=True)
     source.add_argument("text", nargs="?", help="text to count; quote text containing spaces")
     source.add_argument("--file", type=Path, help="UTF-8 file to count")

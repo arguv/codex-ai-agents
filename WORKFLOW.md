@@ -91,3 +91,14 @@ For this exercise, use separate planning, development, testing, and review
 subagents. Where named custom agents cannot be selected, pass the corresponding
 role instructions to a general subagent and disclose that distinction. The
 parent handles documentation and integration; only the Developer edits code.
+
+## Third Exercise: Invoke the Workflow Skill
+
+Use `$agent-workflow` to add `--version`, printing exactly `word-count 1.0`
+followed by a newline, with exit status `0` and empty stderr. It needs no input
+source and must not read stdin or files. Use argparse's standard version action
+outside the input group, retaining its usual option-order semantics.
+
+The skill should pass the Planner's plan to the Developer, the implementation
+to the Tester, and the full change plus test evidence to the Reviewer. Verify
+that all stages actually ran and report any fallback from named custom agents.

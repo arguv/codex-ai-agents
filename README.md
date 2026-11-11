@@ -22,7 +22,7 @@ agents using OpenAI Codex.
 
 ## Current Progress
 
-Step 8: Reusable skills cover project verification and delegated implementation.
+Step 9: Exercise the delegated implementation skill with CLI version reporting.
 
 Follow [WORKFLOW.md](WORKFLOW.md) for a guided collaboration exercise.
 
@@ -43,6 +43,7 @@ to tokens. Quote text containing spaces when using the CLI:
 python3 word_count.py "hello agent team"  # Prints 3
 python3 word_count.py ""                  # Prints 0
 python3 word_count.py --file sample.txt   # Counts words in a UTF-8 file
+python3 word_count.py --version          # Prints word-count 1.0
 printf 'hello agent team\n' | python3 word_count.py --stdin  # Prints 3
 ```
 
@@ -92,8 +93,9 @@ word-count 1.0 and exit successfully without requiring an input source.
 Preserve existing counting behavior and add regression tests.
 ```
 
-This is an example future task; `--version` has not been implemented. The skill
-passes plans and results between agents, returns findings for fixes, and reports
+The `--version` example is implemented and exits without requiring an input
+source or reading stdin or a file. It uses argparse's built-in version action.
+The skill passes plans and results between agents, returns findings for fixes, and reports
 which agents actually ran. It does not commit or push automatically.
 
 The repository skill [project-check](.agents/skills/project-check/SKILL.md)

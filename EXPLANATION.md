@@ -176,3 +176,21 @@ than implementing a separate agent runtime.
 
 Invoke it as `$agent-workflow` followed by the change you want. Creating this
 skill does not itself run another feature implementation.
+
+## Step 9 — Exercise the Orchestration Skill
+
+The workflow's first feature exercise is `--version`. It prints
+`word-count 1.0` and exits successfully without requiring an input source.
+Argparse's built-in version action runs during parsing, before source reads,
+so there is no separate manual parsing path to maintain.
+
+The parent uses the skill to pass a plan, implementation, test evidence, and
+review findings between separate role-guided subagents, while owning the
+documentation. Regression tests verify exact output and that version reporting
+does not read stdin or files. Normal argparse option-order semantics apply;
+version reporting does not promise to override every malformed command line.
+
+The Tester passed all 14 tests and separately verified that version reporting
+exits with stdin still open. This exercises the skill's normal handoff path;
+it does not exercise its repair-loop stopping condition or guarantee behavior
+on platforms not tested locally.

@@ -53,6 +53,34 @@ class CommandLineTests(unittest.TestCase):
         self.assertEqual(result.stdout, "3\n")
         self.assertEqual(result.stderr, "")
 
+    def test_prints_version_without_source(self):
+        result = self.run_cli("--version")
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout, "word-count 1.0\n")
+        self.assertEqual(result.stderr, "")
+
+    def test_version_exits_without_reading_sources(self):
+        for args in [
+            ("--version",),
+            ("--stdin", "--version"),
+            ("--file", "missing.txt", "--version"),
+        ]:
+            with self.subTest(args=args):
+                with (
+                    patch.object(sys, "argv", [str(SCRIPT), *args]),
+                    patch("word_count.sys.stdin") as stdin,
+                    patch("word_count.Path.read_text") as read_text,
+                    patch("sys.stdout", new_callable=io.StringIO) as stdout,
+                    patch("sys.stderr", new_callable=io.StringIO) as stderr,
+                ):
+                    with self.assertRaises(SystemExit) as error:
+                        main()
+                    self.assertEqual(error.exception.code, 0)
+                    self.assertEqual(stdout.getvalue(), "word-count 1.0\n")
+                    self.assertEqual(stderr.getvalue(), "")
+                    stdin.read.assert_not_called()
+                    read_text.assert_not_called()
+
     def test_accepts_empty_text(self):
         result = self.run_cli("")
         self.assertEqual(result.returncode, 0)
