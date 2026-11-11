@@ -105,3 +105,20 @@ scripts or dependencies.
 Repository skills are discovered under `.agents/skills/`, as described in the
 [official skill documentation](https://learn.chatgpt.com/docs/build-skills).
 Invoke this one with `$project-check` from a session opened in this repository.
+
+## Step 5 — Continuous Integration
+
+[The test workflow](.github/workflows/tests.yml) runs the same unittest command
+used locally on a GitHub-hosted Ubuntu runner with Python 3.10. This fixes the
+interpreter version while keeping the workflow dependency-free. It follows
+[GitHub's Python workflow guidance](https://docs.github.com/en/actions/tutorials/build-and-test-code/python).
+
+Pushes and pull requests trigger tests automatically; `workflow_dispatch`
+also allows a manual run. The workflow has read-only repository permissions
+and a five-minute timeout. It runs tests, while agents handle planning,
+implementation, and review. CI does not invoke the Codex agents or require
+an OpenAI API key.
+
+The workflow takes effect once committed and pushed. Its remote execution
+must be checked in GitHub Actions; passing local tests does not confirm a
+successful hosted run.

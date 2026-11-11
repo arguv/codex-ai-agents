@@ -22,7 +22,7 @@ agents using OpenAI Codex.
 
 ## Current Progress
 
-Step 4: Four project-level agents and a reusable verification skill configured.
+Step 5: Agents, a reusable verification skill, and automated tests configured.
 
 Follow [WORKFLOW.md](WORKFLOW.md) for a guided collaboration exercise.
 
@@ -61,6 +61,18 @@ Run verification from the repository root:
 python3 -m unittest discover -s tests -v
 git diff --check
 ```
+
+## Automated Tests
+
+[GitHub Actions](.github/workflows/tests.yml) runs the tests on Ubuntu with
+Python 3.10 for pushes, pull requests, and manual runs. No package installation
+is needed. After pushing the workflow, open the repository's **Actions** tab
+and select **Python tests** to inspect the result. Pull requests also show the
+test result in their checks.
+
+These automated tests complement `$project-check`: review and local diff
+checks still run locally. A failing test fails the job; making it a required
+merge check is a separate repository setting.
 
 ## Documentation
 
