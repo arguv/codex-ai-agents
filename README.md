@@ -22,7 +22,8 @@ agents using OpenAI Codex.
 
 ## Current Progress
 
-Step 11: Define repeatable evaluations for agent handoffs and failure handling.
+The first-phase implementation is ready for final commit, push, and CI verification:
+four agent roles, two reusable skills, a tested CLI, and automated tests.
 
 The first [evaluation results](EVALUATION_RESULTS.md) confirm clarification and
 local fallback behavior. Controlled delegated handoffs and repair-loop cases
@@ -53,7 +54,8 @@ python3 word_count.py --version          # Prints word-count 1.0
 printf 'hello agent team\n' | python3 word_count.py --stdin  # Prints 3
 ```
 
-Provide exactly one input: quoted text, `--file PATH`, or `--stdin`. Omitting input or
+For counting, provide exactly one input: quoted text, `--file PATH`, or `--stdin`.
+`--help` and `--version` exit without an input source. Omitting counting input or
 combining sources displays usage information and exits with a nonzero status.
 Unreadable files and invalid UTF-8 produce an error without a traceback.
 Importing the module does not run the CLI.
@@ -72,8 +74,9 @@ their handoffs and combines their results.
 Run verification from the repository root:
 
 ```bash
-python3 -m unittest discover -s tests -v
+python3 -B -m unittest discover -s tests -v
 git diff --check
+git diff --cached --check
 ```
 
 ## Automated Tests

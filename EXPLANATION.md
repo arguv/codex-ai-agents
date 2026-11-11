@@ -225,3 +225,16 @@ The first controlled run is recorded in
 passed. Nested delegation was unavailable, so controlled role handoffs and
 repair-loop behavior remain unverified. The earlier exercises provide separate
 historical evidence, not a pass for the unexecuted scenarios.
+
+## First-Phase Handoff
+
+The implemented learning scope covers role definitions, reusable verification
+and orchestration skills, delegated feature development, regression testing,
+CI, and an initial controlled evaluation. No demonstrated skill defect required
+a fix after that evaluation. Documentation now distinguishes the historical
+exercise contracts from current CLI behavior and records the unverified cases.
+
+Final publication consists of committing the reviewed changes, pushing them,
+and checking the resulting GitHub Actions run. That hosted result must be
+reported separately from local checks. Controlled handoff and repair-limit
+evaluations remain follow-up work, rather than being described as completed.

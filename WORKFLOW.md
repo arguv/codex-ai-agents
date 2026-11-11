@@ -10,13 +10,18 @@ the existing text argument behavior. The file-input feature is implemented;
 the prompt below can be used to reproduce the exercise from the earlier version
 or assess the current implementation against the criteria.
 
+The exercises below describe successive versions. The current CLI includes
+all three input sources plus `--version`; preserve those later features when
+using an earlier exercise as a review checklist.
+
 Acceptance criteria:
 
 - `python3 word_count.py "hello agent team"` still prints `3`.
 - `python3 word_count.py --file sample.txt` prints the number of
   whitespace-separated words in the UTF-8 file.
 - Empty or whitespace-only files print `0`.
-- Exactly one input source is required: text or `--file`.
+- At this exercise's stage, exactly one input source is required: text or
+  `--file`. The subsequent stdin exercise adds a third choice.
 - Missing inputs, conflicting inputs, unreadable files, and invalid UTF-8
   produce a concise error on stderr and a nonzero exit status without a traceback.
 - Existing tests continue to pass; new tests cover the file behavior and errors.
@@ -66,6 +71,7 @@ Run from the repository root:
 ```bash
 python3 -B -m unittest discover -s tests -v
 git diff --check
+git diff --cached --check
 git status --short
 ```
 
