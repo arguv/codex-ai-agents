@@ -90,3 +90,18 @@ to the Developer and repeat the affected checks. Agent instructions define
 responsibilities; they do not enforce separate sandbox permissions.
 
 [WORKFLOW.md](WORKFLOW.md) contains the next exercise and its acceptance criteria.
+
+## Step 4 — A Reusable Verification Skill
+
+[project-check](.agents/skills/project-check/SKILL.md) packages the recurring
+verification procedure: run the standard-library tests, check both staged and
+unstaged diffs, and report failures. Its instructions also account for untracked
+files and Python subprocess bytecode caches.
+
+An agent defines a worker's role. A skill defines a reusable procedure that an
+agent can follow. This skill needs only instructions, so there are no helper
+scripts or dependencies.
+
+Repository skills are discovered under `.agents/skills/`, as described in the
+[official skill documentation](https://learn.chatgpt.com/docs/build-skills).
+Invoke this one with `$project-check` from a session opened in this repository.

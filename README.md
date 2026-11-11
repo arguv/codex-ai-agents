@@ -22,7 +22,7 @@ agents using OpenAI Codex.
 
 ## Current Progress
 
-Step 3: Four project-level agents configured in [.codex/agents/](.codex/agents/).
+Step 4: Four project-level agents and a reusable verification skill configured.
 
 Follow [WORKFLOW.md](WORKFLOW.md) for a guided collaboration exercise.
 
@@ -63,6 +63,17 @@ git diff --check
 ```
 
 ## Documentation
+
+The repository skill [project-check](.agents/skills/project-check/SKILL.md)
+runs the test suite and checks staged and unstaged diffs. In a Codex session
+opened in this repository, ask:
+
+```text
+Use $project-check to verify this project and report the results.
+```
+
+If the skill is not shown in the selector, restart the Codex session in this
+repository. The skill checks the project; it does not automatically fix or commit.
 
 See [EXPLANATION.md](EXPLANATION.md) for detailed
 technical explanations and learning notes.
