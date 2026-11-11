@@ -20,7 +20,10 @@ def main() -> None:
     args = parser.parse_args()
     text = args.text
     if args.stdin:
-        text = sys.stdin.read()
+        try:
+            text = sys.stdin.read()
+        except (OSError, UnicodeError) as error:
+            parser.error(f"cannot read stdin: {error}")
     if args.file is not None:
         try:
             text = args.file.read_text(encoding="utf-8")

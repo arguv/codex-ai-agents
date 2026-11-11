@@ -148,3 +148,15 @@ was exercised. See [WORKFLOW.md](WORKFLOW.md) for the feature contract.
 The Tester passed all 11 tests on Python 3.10 and checked open pipes to verify
 that parse errors do not wait for EOF. Interactive terminal input and other
 platforms were not tested in this session.
+
+## Step 7 — Fix a Review Limitation with Regression Tests
+
+The prior review noted that stdin read failures could escape as tracebacks.
+The next exercise reproduced this with a failing regression test that injects
+an `OSError` and a `UnicodeDecodeError` into the input stream. The fix catches
+these errors around the stdin read and uses the same argparse error mechanism
+as file input: stderr diagnostics, exit status `2`, and no count on stdout.
+
+The regression checks the observable error behavior rather than the exact
+underlying operating-system message. Input is still buffered entirely in
+memory, and stdin encoding remains controlled by Python's environment.

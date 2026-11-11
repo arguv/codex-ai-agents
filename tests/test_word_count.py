@@ -1,6 +1,7 @@
 """Tests for the word-count function and command-line interface."""
 
 from pathlib import Path
+import io
 import subprocess
 import sys
 import tempfile
@@ -81,6 +82,27 @@ class CommandLineTests(unittest.TestCase):
         result = self.run_cli(input="hello agent team")
         self.assert_cli_error(result)
         self.assertEqual(result.returncode, 2)
+
+    def test_reports_stdin_read_errors(self):
+        failures = [
+            OSError("input unavailable"),
+            UnicodeDecodeError("utf-8", b"\xff", 0, 1, "invalid byte"),
+        ]
+        for failure in failures:
+            with self.subTest(failure=type(failure).__name__):
+                with (
+                    patch.object(sys, "argv", [str(SCRIPT), "--stdin"]),
+                    patch("word_count.sys.stdin") as stdin,
+                    patch("sys.stdout", new_callable=io.StringIO) as stdout,
+                    patch("sys.stderr", new_callable=io.StringIO) as stderr,
+                ):
+                    stdin.read.side_effect = failure
+                    with self.assertRaises(SystemExit) as error:
+                        main()
+                    self.assertEqual(error.exception.code, 2)
+                    self.assertEqual(stdout.getvalue(), "")
+                    self.assertIn("error: cannot read stdin:", stderr.getvalue())
+                    self.assertNotIn("Traceback", stderr.getvalue())
 
     def test_counts_utf8_files(self):
         with tempfile.TemporaryDirectory() as directory:

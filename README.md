@@ -22,7 +22,7 @@ agents using OpenAI Codex.
 
 ## Current Progress
 
-Step 6: Practice delegated agent collaboration by adding standard-input support.
+Step 7: Standard-input support includes regression-tested read-error handling.
 
 Follow [WORKFLOW.md](WORKFLOW.md) for a guided collaboration exercise.
 
@@ -54,6 +54,8 @@ Importing the module does not run the CLI.
 `--stdin` reads piped text until EOF using Python's standard-input encoding.
 Empty or whitespace-only input prints `0`. With interactive input, finish
 with EOF (Ctrl-D on Unix). Input is read only when `--stdin` is selected.
+Stdin I/O and decoding failures print an error on stderr and exit with status
+`2`, without printing a count or a traceback.
 
 The Planner defines the contract, the Developer implements the tool,
 the Tester checks behavior, and the Reviewer checks correctness and scope.
