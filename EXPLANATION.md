@@ -207,3 +207,18 @@ Option-order tests also preserve argparse behavior: `--version --file` exits
 with the version, while `--file --version` reports the missing file argument.
 After the option terminator, `-- --version` counts the literal text as one word.
 These tests turn the earlier review evidence into repeatable CI coverage.
+
+## Step 11 — Evaluate the Agents, Not Only the Code
+
+[EVALUATION.md](EVALUATION.md) defines controlled cases for normal delegation,
+repair handoffs and their stopping condition, missing requirements, and absent
+delegation tools. Each run records the setup, real agent outputs, changed files,
+verification, and an evidence-backed outcome.
+
+Application tests can pass even if a coordinator skips review or invents an
+agent result. Workflow evaluation therefore checks the execution trace as well
+as the final code. Failure-injection cases belong in isolated environments;
+some require a harness that can pause handoffs or control returned results.
+
+These scenarios are documented but have not been executed as a controlled
+evaluation suite. The previous exercises provide narrower historical evidence.

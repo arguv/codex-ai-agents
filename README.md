@@ -22,9 +22,11 @@ agents using OpenAI Codex.
 
 ## Current Progress
 
-Step 10: Retain the review's open-stdin and option-order checks as regression tests.
+Step 11: Define repeatable evaluations for agent handoffs and failure handling.
 
 Follow [WORKFLOW.md](WORKFLOW.md) for a guided collaboration exercise.
+Use [EVALUATION.md](EVALUATION.md) to assess workflow behavior with controlled
+scenarios and an evidence record, including cases that CLI tests cannot cover.
 
 Ask Codex: "Use the planner agent to inspect this project and
 propose a small implementation plan for [task]. Do not modify files."
