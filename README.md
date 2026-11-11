@@ -24,6 +24,10 @@ agents using OpenAI Codex.
 
 Step 11: Define repeatable evaluations for agent handoffs and failure handling.
 
+The first [evaluation results](EVALUATION_RESULTS.md) confirm clarification and
+local fallback behavior. Controlled delegated handoffs and repair-loop cases
+remain unverified; see the report for evidence and environment limitations.
+
 Follow [WORKFLOW.md](WORKFLOW.md) for a guided collaboration exercise.
 Use [EVALUATION.md](EVALUATION.md) to assess workflow behavior with controlled
 scenarios and an evidence record, including cases that CLI tests cannot cover.

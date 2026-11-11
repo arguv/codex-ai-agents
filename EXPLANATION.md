@@ -220,5 +220,8 @@ agent result. Workflow evaluation therefore checks the execution trace as well
 as the final code. Failure-injection cases belong in isolated environments;
 some require a harness that can pause handoffs or control returned results.
 
-These scenarios are documented but have not been executed as a controlled
-evaluation suite. The previous exercises provide narrower historical evidence.
+The first controlled run is recorded in
+[EVALUATION_RESULTS.md](EVALUATION_RESULTS.md). Clarification and local fallback
+passed. Nested delegation was unavailable, so controlled role handoffs and
+repair-loop behavior remain unverified. The earlier exercises provide separate
+historical evidence, not a pass for the unexecuted scenarios.
