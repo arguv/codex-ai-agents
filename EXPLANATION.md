@@ -109,7 +109,7 @@ Invoke this one with `$project-check` from a session opened in this repository.
 ## Step 5 — Continuous Integration
 
 [The test workflow](.github/workflows/tests.yml) runs the same unittest command
-used locally on a GitHub-hosted Ubuntu runner with Python 3.10. This fixes the
+used locally on a GitHub-hosted Ubuntu 24.04 runner with Python 3.10. This fixes the
 interpreter version while keeping the workflow dependency-free. It follows
 [GitHub's Python workflow guidance](https://docs.github.com/en/actions/tutorials/build-and-test-code/python).
 
@@ -122,3 +122,9 @@ an OpenAI API key.
 The workflow takes effect once committed and pushed. Its remote execution
 must be checked in GitHub Actions; passing local tests does not confirm a
 successful hosted run.
+
+The runner uses `ubuntu-24.04` to avoid automatic OS version migrations from
+`ubuntu-latest`. The image still receives updates. `actions/setup-python@v6`
+uses Node.js 24 internally, resolving the earlier Node.js 20 deprecation
+warning without changing the project's Python version. See the
+[action's v6 migration notes](https://github.com/actions/setup-python/tree/v6#breaking-changes-in-v6).

@@ -64,7 +64,7 @@ git diff --check
 
 ## Automated Tests
 
-[GitHub Actions](.github/workflows/tests.yml) runs the tests on Ubuntu with
+[GitHub Actions](.github/workflows/tests.yml) runs the tests on Ubuntu 24.04 with
 Python 3.10 for pushes, pull requests, and manual runs. No package installation
 is needed. After pushing the workflow, open the repository's **Actions** tab
 and select **Python tests** to inspect the result. Pull requests also show the
