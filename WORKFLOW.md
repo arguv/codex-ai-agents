@@ -72,3 +72,22 @@ git status --short
 Review untracked files explicitly: ordinary `git diff` does not include them.
 Successful completion means the criteria are covered by passing tests and
 there are no unresolved review findings.
+
+## Second Exercise: Standard Input
+
+Add `--stdin` as a third mutually exclusive input source. Read Python's text
+stream until EOF, count whitespace-separated words, and print the same numeric
+output. Empty input returns `0`. Preserve text and file input behavior.
+Conflicting arguments must fail before reading stdin. Piped input alone does
+not select stdin automatically.
+
+Example:
+
+```bash
+printf 'hello agent team\n' | python3 word_count.py --stdin
+```
+
+For this exercise, use separate planning, development, testing, and review
+subagents. Where named custom agents cannot be selected, pass the corresponding
+role instructions to a general subagent and disclose that distinction. The
+parent handles documentation and integration; only the Developer edits code.

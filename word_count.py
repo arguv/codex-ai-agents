@@ -2,6 +2,7 @@
 
 import argparse
 from pathlib import Path
+import sys
 
 
 def count_words(text: str) -> int:
@@ -10,13 +11,16 @@ def count_words(text: str) -> int:
 
 
 def main() -> None:
-    """Read text or a UTF-8 file and print its word count."""
+    """Read text, a UTF-8 file, or stdin and print its word count."""
     parser = argparse.ArgumentParser(description=__doc__)
     source = parser.add_mutually_exclusive_group(required=True)
     source.add_argument("text", nargs="?", help="text to count; quote text containing spaces")
     source.add_argument("--file", type=Path, help="UTF-8 file to count")
+    source.add_argument("--stdin", action="store_true", help="read text from stdin")
     args = parser.parse_args()
     text = args.text
+    if args.stdin:
+        text = sys.stdin.read()
     if args.file is not None:
         try:
             text = args.file.read_text(encoding="utf-8")

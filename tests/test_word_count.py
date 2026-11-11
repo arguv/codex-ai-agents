@@ -5,8 +5,9 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
-from word_count import count_words
+from word_count import count_words, main
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -35,12 +36,14 @@ class CommandLineTests(unittest.TestCase):
         self.assertIn("error:", result.stderr)
         self.assertNotIn("Traceback", result.stderr)
 
-    def run_cli(self, *args):
+    def run_cli(self, *args, input=None):
         return subprocess.run(
             [sys.executable, "-B", str(SCRIPT), *args],
             capture_output=True,
             text=True,
+            input=input,
             check=False,
+            timeout=5,
         )
 
     def test_prints_count(self):
@@ -61,6 +64,24 @@ class CommandLineTests(unittest.TestCase):
         self.assertEqual(result.stdout, "")
         self.assertIn("usage:", result.stderr)
 
+    def test_counts_stdin(self):
+        for content, expected in [
+            ("", 0),
+            (" \t\n ", 0),
+            ("hello agent\nteam\n", 3),
+            ("բարև աշխարհ\nこんにちは 世界", 4),
+        ]:
+            with self.subTest(content=content):
+                result = self.run_cli("--stdin", input=content)
+                self.assertEqual(result.returncode, 0)
+                self.assertEqual(result.stdout, f"{expected}\n")
+                self.assertEqual(result.stderr, "")
+
+    def test_piped_input_requires_explicit_source(self):
+        result = self.run_cli(input="hello agent team")
+        self.assert_cli_error(result)
+        self.assertEqual(result.returncode, 2)
+
     def test_counts_utf8_files(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "sample text.txt"
@@ -76,6 +97,33 @@ class CommandLineTests(unittest.TestCase):
         for args in [(), ("--file",), ("text", "--file", "sample.txt"), ("", "--file", "sample.txt")]:
             with self.subTest(args=args):
                 self.assert_cli_error(self.run_cli(*args))
+
+    def test_conflicting_sources_do_not_read_stdin(self):
+        conflicts = [
+            ("text", "--file", "sample.txt"),
+            ("", "--file", "sample.txt"),
+            ("text", "--stdin"),
+            ("", "--stdin"),
+            ("--file", "sample.txt", "--stdin"),
+            ("text", "--file", "sample.txt", "--stdin"),
+            ("", "--file", "sample.txt", "--stdin"),
+        ]
+        for args in conflicts:
+            with self.subTest(args=args):
+                result = self.run_cli(*args, input="ignored input")
+                self.assert_cli_error(result)
+                self.assertEqual(result.returncode, 2)
+                with (
+                    patch.object(sys, "argv", [str(SCRIPT), *args]),
+                    patch("word_count.sys.stdin") as stdin,
+                    patch("sys.stdout") as stdout,
+                    patch("sys.stderr"),
+                ):
+                    with self.assertRaises(SystemExit) as error:
+                        main()
+                    self.assertEqual(error.exception.code, 2)
+                    stdin.read.assert_not_called()
+                    stdout.write.assert_not_called()
 
     def test_reports_file_errors(self):
         with tempfile.TemporaryDirectory() as directory:

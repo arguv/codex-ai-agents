@@ -22,7 +22,7 @@ agents using OpenAI Codex.
 
 ## Current Progress
 
-Step 5: Agents, a reusable verification skill, and automated tests configured.
+Step 6: Practice delegated agent collaboration by adding standard-input support.
 
 Follow [WORKFLOW.md](WORKFLOW.md) for a guided collaboration exercise.
 
@@ -43,12 +43,17 @@ to tokens. Quote text containing spaces when using the CLI:
 python3 word_count.py "hello agent team"  # Prints 3
 python3 word_count.py ""                  # Prints 0
 python3 word_count.py --file sample.txt   # Counts words in a UTF-8 file
+printf 'hello agent team\n' | python3 word_count.py --stdin  # Prints 3
 ```
 
-Provide exactly one input: quoted text or `--file PATH`. Omitting input or
-combining the two displays usage information and exits with a nonzero status.
+Provide exactly one input: quoted text, `--file PATH`, or `--stdin`. Omitting input or
+combining sources displays usage information and exits with a nonzero status.
 Unreadable files and invalid UTF-8 produce an error without a traceback.
 Importing the module does not run the CLI.
+
+`--stdin` reads piped text until EOF using Python's standard-input encoding.
+Empty or whitespace-only input prints `0`. With interactive input, finish
+with EOF (Ctrl-D on Unix). Input is read only when `--stdin` is selected.
 
 The Planner defines the contract, the Developer implements the tool,
 the Tester checks behavior, and the Reviewer checks correctness and scope.
